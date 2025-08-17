@@ -5,6 +5,8 @@ import Star.model.ObservableBriefDepartment;
 import Star.io.*;
 import idv.natsucamellia.StarAPI.core.StarAPI;
 import idv.natsucamellia.StarAPI.model.*;
+import idv.natsucamellia.StarAPI.model.Subject;
+//import javax.security.auth.Subject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import javafx.scene.layout.GridPane;
 
 import java.io.File;
 import java.util.*;
+
+//import javax.security.auth.Subject;
 
 public class DepartmentOverviewController {
 
@@ -34,12 +38,14 @@ public class DepartmentOverviewController {
     private GridPane soloView;
     @FXML
     private Label
-            rank_110, rank_111, rank_112, rank_113,
-            fil1_110, fil1_111, fil1_112, fil1_113,
-            fil2_110, fil2_111, fil2_112, fil2_113;
+            rank_110, rank_111, rank_112, rank_113,rank_114,
+            fil1_110, fil1_111, fil1_112, fil1_113, fil1_114,
+            fil2_110, fil2_111, fil2_112, fil2_113, fil2_114;
     private Label[] rankLabels;
     private Label[] fil1Labels;
     private Label[] fil2Labels;
+
+
 
 
     // 多重顯示
@@ -49,8 +55,8 @@ public class DepartmentOverviewController {
     private TableColumn<ObservableBriefDepartment, String>
             validCell,
             CNCell, ENCell, MACell, MBCell, SOCell, SCCell, ELCell,
-            rec107Cell, rec108Cell, rec109Cell, rec110Cell, rec111Cell, rec112Cell, rec113Cell,
-            per107Cell, per108Cell, per109Cell, per110Cell, per111Cell, per112Cell, per113Cell;
+            rec107Cell, rec108Cell, rec109Cell, rec110Cell, rec111Cell, rec112Cell, rec113Cell, rec114Cell,
+            per107Cell, per108Cell, per109Cell, per110Cell, per111Cell, per112Cell, per113Cell, per114Cell;
 
     // 導航列
     @FXML
@@ -73,12 +79,13 @@ public class DepartmentOverviewController {
             StarTelescope.MULTI_START_YEAR,
             StarTelescope.SOLO_END_YEAR);
     DataWriter dataWriter = new DataWriter();
-    
+
     public void initialize() {
         // Solo view
-        rankLabels = new Label[]{rank_110, rank_111, rank_112, rank_113};
-        fil1Labels = new Label[]{fil1_110, fil1_111, fil1_112, fil1_113};
-        fil2Labels = new Label[]{fil2_110, fil2_111, fil2_112, fil2_113};
+        rankLabels = new Label[]{rank_110, rank_111, rank_112, rank_113, rank_114};
+        fil1Labels = new Label[]{fil1_110, fil1_111, fil1_112, fil1_113, fil1_114};
+        fil2Labels = new Label[]{fil2_110, fil2_111, fil2_112, fil2_113, fil2_114};
+
 
         // School List
         schoolListView.getItems().setAll(starAPI.getSchoolList());
@@ -100,7 +107,7 @@ public class DepartmentOverviewController {
         // Multi view
         multiView.setItems(observableFavorList);
         validCell.setCellValueFactory(b -> b.getValue().valid);
-        CNCell.setCellValueFactory(b -> b.getValue().getScaleProperty(Subject.CHINESE));
+        CNCell.setCellValueFactory(b -> b.getValue().getScaleProperty(idv.natsucamellia.StarAPI.model.Subject.CHINESE));
         ENCell.setCellValueFactory(b -> b.getValue().getScaleProperty(Subject.ENGLISH));
         MACell.setCellValueFactory(b -> b.getValue().getScaleProperty(Subject.MATH_A));
         MBCell.setCellValueFactory(b -> b.getValue().getScaleProperty(Subject.MATh_B));
@@ -121,6 +128,9 @@ public class DepartmentOverviewController {
         rec111Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(111));
         rec112Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(112));
         rec113Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(113));
+        per114Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(114));
+        rec114Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(114));
+
 
         List<ChoiceBox<Scale>> scoreBoxes = Arrays.asList(CNBox, ENBox, MABox, MBBox, SOBox, SCBox, ELBox);
         // Primary subjects

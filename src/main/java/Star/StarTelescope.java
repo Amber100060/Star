@@ -13,17 +13,17 @@ public class StarTelescope extends Application {
 
     // Global settings
     public static final int MULTI_START_YEAR = 107;
-    public static final int MULTI_END_YEAR = 113;
+    public static final int MULTI_END_YEAR = 114;
     public static final int SOLO_START_YEAR = 110;
-    public static final int SOLO_END_YEAR = 113;
+    public static final int SOLO_END_YEAR = 114;
     public static final String FAVORITE_PATH = "favorite.json";
-    
+
     private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("繁星望遠鏡 v1.4.1");
+        this.primaryStage.setTitle("繁星望遠鏡 v1.5.0");
         this.primaryStage.setResizable(true);
         Image icon = new Image(Objects.requireNonNull(StarTelescope.class.getResourceAsStream("/images/icon.png")));
         this.primaryStage.getIcons().add(icon);

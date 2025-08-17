@@ -6,7 +6,7 @@
 
     <groupId>net.natsucamellia</groupId>
     <artifactId>star-telescope</artifactId>
-    <version>1.4.1</version>
+    <version>1.5.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -80,10 +80,11 @@
             <version>2.10.1</version>
         </dependency>
 
+
         <dependency>
             <groupId>idv.natsucamellia</groupId>
             <artifactId>StarAPI</artifactId>
-            <version>0.2.1</version>
+            <version>0.2.2</version>
         </dependency>
     </dependencies>
     
