@@ -121,6 +121,7 @@ public class DepartmentOverviewController {
         per111Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(111));
         per112Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(112));
         per113Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(113));
+        per114Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(114));
         rec107Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(107));
         rec108Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(108));
         rec109Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(109));
@@ -128,7 +129,6 @@ public class DepartmentOverviewController {
         rec111Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(111));
         rec112Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(112));
         rec113Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(113));
-        per114Cell.setCellValueFactory(b -> b.getValue().getPercentOfYear(114));
         rec114Cell.setCellValueFactory(b -> b.getValue().getAdmissionsOfYear(114));
 
 
@@ -194,12 +194,34 @@ public class DepartmentOverviewController {
     private List<DepartmentIdentifier> getDepartmentsWithFilter(Map<Subject, Scale> scales, School school) {
         List<DepartmentIdentifier> departments = school.getDepartmentIdentifiers();
         List<DepartmentIdentifier> toReturn = new ArrayList<>();
+
         for (DepartmentIdentifier identifier : departments) {
+            // 從 API 取得系所資料
             Department department = starAPI.getDepartment(identifier);
-            List<RequirementElement> requirements = department.getResultOfYear(StarTelescope.SOLO_END_YEAR).getRequirementsList();
+
+            // 【關鍵修復】：如果 API 回傳 null，代表找不到該系所資料，直接跳過
+            if (department == null) {
+                System.err.println("警告: 找不到科系資料 - " + identifier.toString());
+                continue;
+            }
+
+            // 取得特定年份的結果
+            Result result = department.getResultOfYear(StarTelescope.SOLO_END_YEAR);
+
+            // 如果該年份沒有資料，也跳過以免後續 getRequirementsList() 報錯
+            if (result == null) {
+                continue;
+            }
+
+            List<RequirementElement> requirements = result.getRequirementsList();
             boolean valid = true;
+
             for (RequirementElement e : requirements) {
-                if (e.getScale().getScore() > scales.get(e.getSubject()).getScore()) {
+                Scale userScale = scales.get(e.getSubject());
+                // 防止 userScale 為 null
+                if (userScale == null) continue;
+
+                if (e.getScale().getScore() > userScale.getScore()) {
                     valid = false;
                     break;
                 }
